@@ -1,0 +1,16 @@
+from fastapi import FastAPI
+from repository.database import database
+from controller.user_controller import router as user_router
+
+app=FastAPI()
+
+@app.on_event("startup")
+async def startup(): ##async - every line happens without waiting the lone before to finish
+    await database.connect() ##await - forces the def to wait until the line finished
+
+@app.on_event("shutdown")
+async def shutdown():
+    await database.disconnect()
+
+
+app.include_router(user_router)

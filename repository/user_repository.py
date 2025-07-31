@@ -28,11 +28,11 @@ async def create_user(new_user: User)-> int:
 
     async with database.transaction():
         await database.execute(query, values)
-        last_record_id=await database.fetch_one("SELECT_LAST_INSERT_ID()")
+        last_record_id=await database.fetch_one("SELECT LAST_INSERT_ID()")
     return last_record_id[0]
 
 
-async def register_user(user_id: User)-> int:
+async def register_user(user_id: User):
     query = f"UPDATE {TABLE_NAME} SET is_registered = TRUE WHERE id= :user_id"
     await database.execute(query, values={"user_id":user_id})
 
