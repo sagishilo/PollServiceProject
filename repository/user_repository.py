@@ -20,11 +20,12 @@ async def get_all() -> List[User]:
 
 async def create_user(new_user: User)-> int:
     query= f"""
-    INSERT INTO {TABLE_NAME} (first_name,last_name,email,age, address)
-    VALUES(:first_name, :last_name, :email, :age, :address)
+    INSERT INTO {TABLE_NAME} (first_name,last_name,email,age, address, joining_date)
+    VALUES(:first_name, :last_name, :email, :age, :address, :joining_date)
     """
     values={"first_name": new_user.first_name ,"last_name":new_user.last_name,
-            "email":new_user.email, "age":new_user.age, "address":new_user.address}
+            "email":new_user.email, "age":new_user.age, "address":new_user.address,
+            "joining_date":new_user.joining_date}
 
     async with database.transaction():
         await database.execute(query, values)
@@ -32,10 +33,9 @@ async def create_user(new_user: User)-> int:
     return last_record_id[0]
 
 
-async def register_user(user_id: User):
+async def register_user(user_id: int):
     query = f"UPDATE {TABLE_NAME} SET is_registered = TRUE WHERE id= :user_id"
     await database.execute(query, values={"user_id":user_id})
-
 
 
 async def update_user(user_id: int, updated_user: User):
@@ -46,11 +46,12 @@ async def update_user(user_id: int, updated_user: User):
     email= :email,
     age= :age
     address= :address
+    joining_date= :joining_date
     WHERE id= :user_id
     """
     values={"first_name": updated_user.first_name ,"last_name":updated_user.last_name,
             "email":updated_user.email, "age":updated_user.age, "address":updated_user.address,
-            "user_id":updated_user.id}
+            "joining_date":updated_user.joining_date, "user_id":updated_user.id}
     await database.execute(query, values)
 
 
