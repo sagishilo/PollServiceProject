@@ -21,7 +21,7 @@ async def create_user(new_user: User)-> Optional[int]:
     if existing_user:
         raise ValueError(f"The user with id: {new_user.id} is already exist")
     else:
-        await user_repository.create_user(new_user)
+        return await user_repository.create_user(new_user)
 
 
 async def register_user(user_id: int):
