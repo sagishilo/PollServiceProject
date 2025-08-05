@@ -9,6 +9,6 @@ last_name VARCHAR (300) NOT NULL DEFAULT "",
 email VARCHAR (300) NOT NULL DEFAULT "",
 age INT(11) NOT NULL DEFAULT 0,
 address VARCHAR (300) NOT NULL DEFAULT "",
-joining_data DATE NOT NULL,
+joining_date DATE NOT NULL,
 is_registered BOOLEAN NOT NULL DEFAULT FALSE
 );

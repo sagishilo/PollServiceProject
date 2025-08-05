@@ -51,7 +51,7 @@ async def update_user(user_id: int, updated_user: User):
     """
     values={"first_name": updated_user.first_name ,"last_name":updated_user.last_name,
             "email":updated_user.email, "age":updated_user.age, "address":updated_user.address,
-            "joining_date":updated_user.joining_date, "user_id":updated_user.id}
+            "joining_date":updated_user.joining_date, "user_id":user_id}
     await database.execute(query, values)
 
 
