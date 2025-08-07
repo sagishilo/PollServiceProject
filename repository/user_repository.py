@@ -56,10 +56,12 @@ async def update_user(user_id: int, updated_user: User):
     values={"first_name": updated_user.first_name ,"last_name":updated_user.last_name,
             "email":updated_user.email, "age":updated_user.age, "address":updated_user.address,
             "joining_date":updated_user.joining_date, "user_id":user_id}
+    await database.execute(query, values)
     updated = await get_by_id(user_id)
     if updated is None:
         raise Exception
     return updated
+
 
 async def delete_user(user_id: int):
     query = f"DELETE FROM {TABLE_NAME} WHERE id= :user_id"
