@@ -11,7 +11,7 @@ This repository contains two independent microservices forming a voting platform
 
 - [Architecture](#architecture)  
 - [User Service](#user-service)  
-- [Answer Service](#answer-service)  
+- [Poll Service](#Poll-service)  
 - [Common](#common)  
 - [Installation](#installation)  
 - [Running the Services](#running-the-services)  
@@ -50,7 +50,7 @@ Each service exposes REST APIs and uses asynchronous Python (FastAPI) for perfor
 
 ---
 
-## Answer Service
+## Poll Service
 
 **Responsibilities:**  
 - Manage votes (create, update, delete).  
