@@ -29,7 +29,7 @@ Each service exposes REST APIs and uses asynchronous Python (FastAPI) for perfor
 ---
 
 ## User Service
-
+uvicorn main:app --reload
 **Responsibilities:**  
 - Create, update, and retrieve users.  
 - Register users (mark as registered).  
@@ -47,6 +47,7 @@ Each service exposes REST APIs and uses asynchronous Python (FastAPI) for perfor
 ---
 
 ## Poll Service
+uvicorn main:app --port 8081 --reload
 
 **Responsibilities:**  
 - Manage votes (create, update, delete).  
@@ -126,6 +127,8 @@ Each service exposes REST APIs and uses asynchronous Python (FastAPI) for perfor
 Clone the repository and install dependencies:
 
 ```bash
-git clone https://github.com/your-username/voting-microservices.git
 cd voting-microservices
 pip install -r requirements.txt
+
+
+
