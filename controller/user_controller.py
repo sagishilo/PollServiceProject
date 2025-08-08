@@ -7,6 +7,10 @@ from service import user_service
 router = APIRouter(prefix="/user", tags=["user"])
 
 
+
+## Returns user
+## gets-> int
+## returns -> User
 @router.get("/{user_id}", response_model=User)
 async def get_user(user_id: int):
     try:
@@ -15,6 +19,9 @@ async def get_user(user_id: int):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+
+##Returns all users
+## returns -> List of Users
 @router.get("/", response_model=List[User])
 async def get_users():
     try:
@@ -24,6 +31,10 @@ async def get_users():
 
 
 
+
+##Creates a new user
+## gets-> JSON of User
+## returns -> int (user id)
 @router.post("/")
 async def create_user(user: User):
     try:
@@ -33,6 +44,10 @@ async def create_user(user: User):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+
+##Deletes a specific user and all votes they have made
+## gets-> int (user id)
+## returns -> str message
 @router.delete("/{user_id}", response_model=str)
 async def delete_user(user_id: int):
     try:
@@ -41,6 +56,10 @@ async def delete_user(user_id: int):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+
+## Updates an existing user
+## gets -> JSON of User
+## returns -> User
 @router.put("/{user_id}", response_model=User)
 async def update_user(user_id: int, updated_user: User):
     try:
@@ -49,6 +68,10 @@ async def update_user(user_id: int, updated_user: User):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+
+## Sets user as registered
+## gets -> int (user id)
+## returns -> User
 @router.put("/{user_id}/register", response_model=User)
 async def register_user(user_id: int):
     try:
@@ -57,6 +80,10 @@ async def register_user(user_id: int):
         raise HTTPException(status_code=400, detail=str(e))
 
 
+
+## Checks if a user is registered
+## gets -> int (user id)
+## returns -> bool (True if user is registered, else False)
 @router.get("/{user_id}/is_register", response_model=bool)
 async def is_user_registered(user_id: int):
     try:

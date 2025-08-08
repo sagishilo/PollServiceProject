@@ -7,7 +7,8 @@ from api.internalApi.user_service import answer_service_api
 from model.user import User
 from repository import user_repository
 
-
+##Checks if the wanted user exists
+## If it does - Return user by id
 async def get_by_id(user_id: int) -> Optional[User]:
     existing_user = await user_repository.get_by_id(user_id)
     if existing_user:
@@ -16,11 +17,13 @@ async def get_by_id(user_id: int) -> Optional[User]:
         raise ValueError(f"There is no user with id: {user_id}")
 
 
-
+## Returns all users
 async def get_all() -> List[User]:
     return await user_repository.get_all()
 
 
+## Checks if the wanted user exists
+## If it doesn't - Creates a new user
 async def create_user(new_user: User)-> Optional[int]:
     existing_user = await user_repository.get_by_id(new_user.id)
     if existing_user:
@@ -28,7 +31,9 @@ async def create_user(new_user: User)-> Optional[int]:
     else:
         return await user_repository.create_user(new_user)
 
-
+## Checks if the wanted user exists
+## If it does - Check if it registered
+## If it doesn't - Set user as registered
 async def register_user(user_id: int):
     user = await user_repository.get_by_id(user_id)
     if user:
@@ -40,6 +45,10 @@ async def register_user(user_id: int):
         raise ValueError(f"There is no user with id: {user_id}")
 
 
+
+## Checks if the wanted user exists
+## If it does - Checks if the given user id matches the updated user's id
+## If ids match - Updates the user
 async def update_user(user_id: int, updated_user: User):
     existing_user = await user_repository.get_by_id(user_id)
     if existing_user:
@@ -50,11 +59,15 @@ async def update_user(user_id: int, updated_user: User):
     else:
         raise ValueError(f"There is no user with id: {user_id}")
 
+
+
+## Checks if the wanted user exists
+## If it does - Send request to delete all answers for the user (from answer service)
+## If deletion of answers succeeds - Deletes the user
 async def delete_user(user_id: int) -> Optional[str]:
     existing_user = await user_repository.get_by_id(user_id)
     if not existing_user:
         raise HTTPException(status_code=404, detail=f"There is no user with id: {user_id}")
-
     try:
         await answer_service_api.delete_answers_for_user(user_id)
     except httpx.HTTPStatusError as e:
@@ -66,7 +79,8 @@ async def delete_user(user_id: int) -> Optional[str]:
     return f"The user with id {user_id} was deleted"
 
 
-
+## Checks if the wanted user exists
+## If it does - Returns if the user is registered
 async def is_user_registered(user_id: int) -> Optional[bool]:
     existing_user = await user_repository.get_by_id(user_id)
     if existing_user:

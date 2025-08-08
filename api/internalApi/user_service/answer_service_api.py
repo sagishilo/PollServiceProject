@@ -1,11 +1,9 @@
 from fastapi import HTTPException
 from config.config import Config
 import httpx
-
-from service import user_service
-
 config= Config()
 
+##Calls the API address of the poll server to the count_answers_for_user function
 async def count_answers_for_user(user_id: int):
     url=f"{config.ANSWER_API_BASE_URL}/{user_id}/user_votes_count"
     async with httpx.AsyncClient() as client:
@@ -24,7 +22,7 @@ async def count_answers_for_user(user_id: int):
                 detail=f"Internal error while calling user service: {str(e)}"
             )
 
-
+##Calls the API address of the poll server to the delete_answers_for_user function
 async def delete_answers_for_user(user_id: int):
     url = f"{config.ANSWER_API_BASE_URL}/{user_id}/user_votes"
     async with httpx.AsyncClient() as client:

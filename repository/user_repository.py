@@ -4,6 +4,7 @@ from repository.database import database
 
 TABLE_NAME = "users"
 
+## Returns user by id
 async def get_by_id(user_id: int) -> Optional[User]:
     query = f"SELECT * FROM {TABLE_NAME} WHERE id=:user_id"
     result= await database.fetch_one(query, values={"user_id":user_id})
@@ -11,13 +12,13 @@ async def get_by_id(user_id: int) -> Optional[User]:
         return User(**result)
     return None
 
-
+## Returns all users
 async def get_all() -> List[User]:
     query = f"SELECT * FROM {TABLE_NAME}"
     results =await database.fetch_all(query)
     return [User(**result) for result in results]
 
-
+## Creates a new user (unregistered)
 async def create_user(new_user: User)-> int:
     query= f"""
     INSERT INTO {TABLE_NAME} (first_name,last_name,email,age, address, joining_date)
@@ -32,7 +33,7 @@ async def create_user(new_user: User)-> int:
         last_record_id=await database.fetch_one("SELECT LAST_INSERT_ID()")
     return last_record_id[0]
 
-
+## Sets user as registered
 async def register_user(user_id: int):
     query = f"UPDATE {TABLE_NAME} SET is_registered = TRUE WHERE id= :user_id"
     await database.execute(query, values={"user_id":user_id})
@@ -41,7 +42,7 @@ async def register_user(user_id: int):
         raise Exception
     return updated
 
-
+## Updates an existing user
 async def update_user(user_id: int, updated_user: User):
     query = f"""
     UPDATE {TABLE_NAME}
@@ -62,12 +63,14 @@ async def update_user(user_id: int, updated_user: User):
         raise Exception
     return updated
 
-
+##Deletes a specific user
 async def delete_user(user_id: int):
     query = f"DELETE FROM {TABLE_NAME} WHERE id= :user_id"
     values ={"user_id":user_id }
     await database.execute(query, values)
 
+
+## Checks if a user is registered
 async def is_user_registered(user_id: int) -> bool:
     query = f"SELECT is_registered FROM {TABLE_NAME} WHERE id=:user_id"
     result = await database.fetch_one(query, values={"user_id": user_id})
